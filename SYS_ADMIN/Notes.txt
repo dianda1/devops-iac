@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     tools {
-        jdk 'jdk21'
+        jdk 'jdk17'
         maven 'maven3'
     }
     
@@ -63,7 +63,7 @@ pipeline {
         
         stage('Publish to Nexus') {
             steps {
-                withMaven(globalMavenSettingsConfig: 'type-id-you-can-remember', jdk: 'jdk21', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
+                withMaven(globalMavenSettingsConfig: 'type-id-you-can-remember', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
                     sh "mvn deploy"
                 }
             }          
@@ -74,7 +74,7 @@ pipeline {
             steps {
                script {
                    withDockerRegistry(credentialsId: 'dockerhub-cred', toolName: 'docker', url: 'docker push dianda87/adoptopenjdk-image:latest') {
-                            sh "docker build -t dianda87/adoptopenjdk-image:latest ."
+                            sh "docker build -t dianda87/boardshack:latest ."
                     }
                }
             }
@@ -90,7 +90,7 @@ pipeline {
             steps {
                script {
                    withDockerRegistry(credentialsId: 'dockerhub-cred', toolName: 'docker', url: 'docker push dianda87/adoptopenjdk-image:latest') {
-                       sh "docker push dianda87/adoptopenjdk-image:latest"
+                       sh "docker push dianda87/boardshack:latest"
                         }
                     }
                 
