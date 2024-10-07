@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-pod
+spec:
+  containers:
+    - name: test
+      image: busybox:1.28
+      command: ['sh', '-c', 'echo "The app is running!" && tail -f /dev/null']
+      volumeMounts:
+        - name: config-vol
+          mountPath: /etc/config
+  volumes:
+    - name: config-vol
+      configMap:
+        name: log-config
+        items:
+          - key: log_level
+            path: log_level
+
+
+#configMap
+#A ConfigMap provides a way to inject configuration data into pods. 
+#The data stored in a ConfigMap can be referenced in a volume of type 
+#onfigMap and then consumed by containerized applications running in a pod.
+
+#When referencing a ConfigMap, you provide the name of the ConfigMap in the volume. 
+#You can customize the path to use for a specific entry in the ConfigMap. 
+#The following configuration shows how to mount the log-config ConfigMap onto a Pod 
+#called configmap-pod:
+
+
