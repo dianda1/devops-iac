@@ -1,0 +1,54 @@
+# ---
+# - hosts: web_servers
+#   tasks:
+#     - name: Install Apache
+#       apt:
+#         name: apache2
+#         state: present
+#     - name: Debug Apache
+#       debug:
+#         msg: "Apache is installed"
+
+---
+- hosts: web_servers
+  tasks:
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+    - name: Copy Apache Config
+      copy:
+        src: apache.conf
+        dest: /etc/apache2/apache2.conf
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted
+
+    # Stopping a Service: To stop a service, you can use the following command:
+
+    # - name: Stop a service
+    #   ansible.builtin.service:
+    #   name: your_service_name
+    #   state: stopped
+
+    # Starting a Service: If you need to start a service, you can use:
+
+    # - name: Start a service
+    #   ansible.builtin.service:
+    #   name: your_service_name
+    #   state: started
+
+    # Restarting a Service: To restart a service, the command would be:
+
+    # - name: Restart a service
+    #   ansible.builtin.service:
+    #   name: your_service_name
+    #   state: restarted
+
+    # Restarting a Service: To restart a service, the command would be:
+
+    # - name: Restart a service
+    #   ansible.builtin.service:
+    #   name: your_service_name
+    #   state: restarted
