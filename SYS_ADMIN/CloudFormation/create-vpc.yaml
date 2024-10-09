@@ -1,0 +1,122 @@
+# AWSTemplateFormatVersion: 2010-09-09
+# Description: Reference Architecture to Deploy a vpc, Subnet, igw, RouteTable using CloudFormation.
+# Metadata:
+#   Authors:
+#     Description: Ezezo Tuyo
+
+# Resources:
+#   DidiVPC:
+#     Type: AWS::EC2::VPC
+#     Properties:
+#       CidrBlock: 192.168.0.0/16
+#       Tags:
+#         - Key: "Name"
+#           Value: "didiVPC"
+#   PublicSubnet:
+#     Type: AWS::EC2::Subnet
+#     Properties:
+#       VpcId: -!Ref DidiVPC
+#       CidrBlock: 192.168.255.0/24
+#       Tags:
+#         - Key: "Name"
+#           Value: "didiPubSubnet"
+#   InternetGateway:
+#     Type: AWS::EC2::InternetGateway
+#     Properties:
+#       Tags:
+#         - Key: "Name"
+#           Value: "didiIGW"
+#   InternetGatewayAttachment:
+#     Type: AWS::EC2::VPCGatewayAttachment
+#     Properties:
+#       InternetGatewayId: -!Ref InternetGateway
+#       VpcId: -!Ref DidiVPC
+
+#   PublicRouteTable:
+#     Type: AWS::EC2::RouteTable
+#     Properties:
+#       VpcId: -!Ref DidiVPC
+#       Tags:
+#         - Key: "Name"
+#           Value: "didiPubRouteTable"
+
+#   DefaultPublicRoute:
+#     Type: AWS::EC2::Route
+#     Properties:
+#       RouteTableId: -!Ref PublicRouteTable
+#       DestinationCidrBlock: 0.0.0.0/0
+#       GatewayId: -!Ref InternetGateway
+
+#   PublicSubnetRouteTableAssociation:
+#     Type: AWS::EC2::SubnetRouteTableAssociation
+#     Properties:
+#       RouteTableId: -!Ref PublicRouteTable
+#       SubnetId: -!Ref PublicSubnet
+
+# Outputs:
+#   VPC: 
+#     Description: My Main VPC
+#     Value: -!Ref DidiVPC
+#     Export:
+#       Name: MainVPC
+#   PublicSubnet: 
+#     Description: My Public Subnet
+#     Value: -!Ref PublicSubnet
+#     Export:
+#       Name: DidiSubnet
+#   InternetGateway:
+#     Description: Main InternetGateway
+#     Value: -!Ref InternetGateway
+#     Export:
+#       Name: didiIGW
+
+Resources:
+  DidiVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 192.168.0.0/16
+      Tags:
+        - Key: "Name"
+          Value: "DidiVPC"
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DidiVPC
+      CidrBlock: 192.168.255.0/24
+      Tags:
+        - Key: "Name"
+          Value: "DidiPubSubnet"
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref DidiVPC
+      InternetGatewayId: !Ref InternetGateway
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref DidiVPC
+  Route:
+    Type: AWS::EC2::Route
+    Properties:
+       RouteTableId: !Ref PublicRouteTable
+       DestinationCidrBlock: 0.0.0.0/0
+       GatewayId: !Ref InternetGateway
+  SubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref PublicRouteTable
+
+Outputs:
+  VPC: 
+    Description: My Main VPC
+    Value: !Ref DidiVPC
+    Export:
+      Name: MainVPC
+  PublicSubnet: 
+    Description: My Public Subnet
+    Value: !Ref PublicSubnet
+    Export:
+      Name: DidiSubnet
