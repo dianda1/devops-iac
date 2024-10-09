@@ -19,14 +19,14 @@ spec:
             path: log_level
 
 
-#configMap
-#A ConfigMap provides a way to inject configuration data into pods. 
-#The data stored in a ConfigMap can be referenced in a volume of type 
-#onfigMap and then consumed by containerized applications running in a pod.
+# configMap
+# A ConfigMap provides a way to inject configuration data into pods. 
+# The data stored in a ConfigMap can be referenced in a volume of type 
+# configMap and then consumed by containerized applications running in a pod.
 
-#When referencing a ConfigMap, you provide the name of the ConfigMap in the volume. 
-#You can customize the path to use for a specific entry in the ConfigMap. 
-#The following configuration shows how to mount the log-config ConfigMap onto a Pod 
-#called configmap-pod:
+# When referencing a ConfigMap, you provide the name of the ConfigMap in the volume. 
+# You can customize the path to use for a specific entry in the ConfigMap. 
+# The following configuration shows how to mount the log-config ConfigMap onto a Pod 
+# called configmap-pod:
 
 
